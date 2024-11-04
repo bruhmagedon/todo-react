@@ -1,31 +1,33 @@
+import { observer } from "mobx-react-lite";
 import checked from "../assets/checked.svg";
+import { todoStore } from "../store/store";
 
-export type Todo = {
+export type TodoType = {
   id: number;
   isChecked: boolean;
   text: string;
 };
 
 interface TodoProps {
-  todo: Todo;
-  onDeleteTodo: (id: number) => void;
-  onToggleTodo: (id: number) => void;
+  todo: TodoType;
 }
 
-export const Todo = ({ todo, onDeleteTodo, onToggleTodo }: TodoProps) => {
+export const Todo = observer(({ todo }: TodoProps) => {
+  const { toggleTodoStatus, deleteTodo } = todoStore;
+
   return (
     <>
       <div className="todo">
-        <div className="todo-btn" onClick={() => onToggleTodo(todo.id)}>
+        <div className="todo-btn" onClick={() => toggleTodoStatus(todo.id)}>
           {todo.isChecked && (
             <img src={checked} alt="Галочка" className="todo-icon" />
           )}
         </div>
         <span className="todo-text">{todo.text}</span>
-        <button className="todo-delete" onClick={() => onDeleteTodo(todo.id)}>
+        <button className="todo-delete" onClick={() => deleteTodo(todo.id)}>
           Удалить
         </button>
       </div>
     </>
   );
-};
+});
