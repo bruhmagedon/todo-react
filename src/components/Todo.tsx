@@ -3,9 +3,10 @@ import { useAppDispatch } from "../store/store";
 import { deleteTodo, toggleTodoStatus } from "../store/todoSlice";
 
 export type Todo = {
+  userId: number;
   id: number;
-  isChecked: boolean;
-  text: string;
+  title: string;
+  completed: boolean;
 };
 
 interface TodoProps {
@@ -22,11 +23,11 @@ export const Todo = ({ todo }: TodoProps) => {
           className="todo-btn"
           onClick={() => dispatch(toggleTodoStatus(todo.id))}
         >
-          {todo.isChecked && (
+          {todo.completed && (
             <img src={checked} alt="Галочка" className="todo-icon" />
           )}
         </div>
-        <span className="todo-text">{todo.text}</span>
+        <span className="todo-text">{todo.title}</span>
         <button
           className="todo-delete"
           onClick={() => dispatch(deleteTodo(todo.id))}
